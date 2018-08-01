@@ -22,9 +22,19 @@ public class MainActivity extends AppCompatActivity {
      */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
+        EditText editText = findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    /**
+     * Called when user taps the screen one button.
+     *
+     * @param view
+     */
+    public void sampleScreenOne(View view) {
+        Intent intentScreenOne = new Intent(this, SampleScreenActivity.class);
+        startActivity(intentScreenOne);
     }
 }
