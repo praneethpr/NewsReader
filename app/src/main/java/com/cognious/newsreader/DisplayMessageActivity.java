@@ -3,6 +3,9 @@ package com.cognious.newsreader;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,9 +19,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DisplayMessageActivity extends AppCompatActivity {
+
+
+    private ArrayList<String> values = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +42,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         textView.setText(message);
         */
 
-        final TextView mTextView = findViewById(R.id.textView);
+        ListView listView = findViewById(R.id.list);
 
         //Instantiate the RequestQueue
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -61,23 +68,36 @@ public class DisplayMessageActivity extends AppCompatActivity {
         queue.add(stringRequest);
         */
 
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
+
+        listView.setAdapter(arrayAdapter);
+
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
                 try {
-                    JSONObject jsonObject = response.getJSONArray("articles").getJSONObject(0);
-                    mTextView.setText(jsonObject.get("title").toString());
+                    for (int i = 0; i < response.getJSONArray("articles").length(); i++) {
+                        JSONObject articleObj = response.getJSONArray("articles").getJSONObject(i);
+                        String title = articleObj.getString("title");
+                        values.add(title);
+                        Log.d(title, "output");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                arrayAdapter.notifyDataSetChanged();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mTextView.setText("not working");
+
             }
         });
+
 
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
 
