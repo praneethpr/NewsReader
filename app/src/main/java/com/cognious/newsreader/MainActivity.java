@@ -1,16 +1,14 @@
 package com.cognious.newsreader;
 
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.LruCache;
-import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cognious.newsreader.Adapter.CustomListAdapter;
@@ -29,20 +27,23 @@ public class MainActivity extends AppCompatActivity {
 
     List<News> newsList;
 
-    ListView listView;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.list);
-
         newsList = new ArrayList<>();
 
-        final CustomListAdapter adapter = new CustomListAdapter(this, R.layout.list_row, newsList);
-
-        listView.setAdapter(adapter);
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new CustomListAdapter(newsList);
+        mRecyclerView.setAdapter(mAdapter);
 
         reqQueue = Volley.newRequestQueue(this);
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                adapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
 
             }
         }, new Response.ErrorListener() {

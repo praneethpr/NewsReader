@@ -1,12 +1,11 @@
 package com.cognious.newsreader;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.LruCache;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.cognious.newsreader.Util.LruBitmapCache;
 
 public class VolleySingleton {
 
@@ -41,18 +40,7 @@ public class VolleySingleton {
     public ImageLoader getImageLoader() {
         getRequestQueue();
         if (mImageLoader == null) {
-            mImageLoader = new ImageLoader(this.mRequestQueue, new ImageLoader.ImageCache() {
-                private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
-                @Override
-                public Bitmap getBitmap(String url) {
-                    return mCache.get(url);
-                }
-
-                @Override
-                public void putBitmap(String url, Bitmap bitmap) {
-                    mCache.put(url, bitmap);
-                }
-            });
+            mImageLoader = new ImageLoader(this.mRequestQueue, new LruBitmapCache());
         }
 
         return this.mImageLoader;
