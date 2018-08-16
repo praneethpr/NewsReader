@@ -1,6 +1,5 @@
 package com.cognious.newsreader.Adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +23,14 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
         CardView cardView;
         TextView title;
         NetworkImageView thumbNail;
+        NetworkImageView sourceLogoUrl;
 
         public NewsHolder(View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_view);
             title = itemView.findViewById(R.id.title);
             thumbNail = itemView.findViewById(R.id.thumbnail);
+            sourceLogoUrl = itemView.findViewById(R.id.source_logo);
         }
     }
 
@@ -51,10 +52,11 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
 
     @Override
     public void onBindViewHolder(@NonNull NewsHolder holder, int position) {
-        ImageLoader imageLoader = VolleySingleton.getInstance(holder.thumbNail.getContext()).getImageLoader();
+        ImageLoader imageLoaderThumb = VolleySingleton.getInstance(holder.thumbNail.getContext()).getImageLoader();
+        ImageLoader imageLoaderLogo = VolleySingleton.getInstance(holder.sourceLogoUrl.getContext()).getImageLoader();
         holder.title.setText(this.newsList.get(position).getTitle());
-//        Glide.with(holder.imageView.getContext()).load(mDataset.get(position).getUrl()).into(holder.imageView);
-        holder.thumbNail.setImageUrl(this.newsList.get(position).getThumbnailUrl(), imageLoader);
+        holder.thumbNail.setImageUrl(this.newsList.get(position).getThumbnailUrl(), imageLoaderThumb);
+        holder.sourceLogoUrl.setImageUrl(this.newsList.get(position).getSourceLogoUrl(), imageLoaderLogo);
     }
 
     @Override

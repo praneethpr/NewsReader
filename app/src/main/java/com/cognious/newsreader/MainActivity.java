@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setDrawingCacheEnabled(true);
+        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CustomListAdapter(newsList);
@@ -60,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject articleObj = response.getJSONArray("articles").getJSONObject(i);
                         String title = articleObj.getString("title");
                         String thumbnailUrl = articleObj.getString("urlToImage");
-                        newsList.add(new News(title, thumbnailUrl));
+                        String sourceLogoUrl = articleObj.getString("source_logo");
+                        newsList.add(new News(title, thumbnailUrl, sourceLogoUrl));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
