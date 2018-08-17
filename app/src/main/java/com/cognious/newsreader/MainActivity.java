@@ -17,10 +17,13 @@ import com.cognious.newsreader.Model.News;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,9 +68,15 @@ public class MainActivity extends AppCompatActivity {
                         String title = articleObj.getString("title");
                         String thumbnailUrl = articleObj.getString("urlToImage");
                         String sourceLogoUrl = articleObj.getString("source_logo");
-                        newsList.add(new News(title, thumbnailUrl, sourceLogoUrl));
+                        String publishedAt = articleObj.getString("publishedAt");
+
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+                        Date publishedDate = format.parse(publishedAt);
+
+                        newsList.add(new News(title, thumbnailUrl, sourceLogoUrl, publishedDate));
                     }
-                } catch (JSONException e) {
+                } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
 

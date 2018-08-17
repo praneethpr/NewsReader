@@ -3,12 +3,16 @@ package com.cognious.newsreader.Adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+
 import com.cognious.newsreader.Model.News;
 import com.cognious.newsreader.R;
 import com.cognious.newsreader.VolleySingleton;
@@ -24,6 +28,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
         TextView title;
         NetworkImageView thumbNail;
         NetworkImageView sourceLogoUrl;
+        TextView publishedAt;
 
         public NewsHolder(View itemView) {
             super(itemView);
@@ -31,6 +36,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
             title = itemView.findViewById(R.id.title);
             thumbNail = itemView.findViewById(R.id.thumbnail);
             sourceLogoUrl = itemView.findViewById(R.id.source_logo);
+            publishedAt = itemView.findViewById(R.id.published_time);
         }
     }
 
@@ -52,11 +58,22 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
 
     @Override
     public void onBindViewHolder(@NonNull NewsHolder holder, int position) {
-        ImageLoader imageLoaderThumb = VolleySingleton.getInstance(holder.thumbNail.getContext()).getImageLoader();
-        ImageLoader imageLoaderLogo = VolleySingleton.getInstance(holder.sourceLogoUrl.getContext()).getImageLoader();
         holder.title.setText(this.newsList.get(position).getTitle());
+
+        ImageLoader imageLoaderThumb = VolleySingleton.getInstance(holder.thumbNail.getContext()).getImageLoader();
         holder.thumbNail.setImageUrl(this.newsList.get(position).getThumbnailUrl(), imageLoaderThumb);
+
+        ImageLoader imageLoaderLogo = VolleySingleton.getInstance(holder.sourceLogoUrl.getContext()).getImageLoader();
         holder.sourceLogoUrl.setImageUrl(this.newsList.get(position).getSourceLogoUrl(), imageLoaderLogo);
+
+        long time = this.newsList.get(position).getPublishedAt().getTime();
+        long now = System.currentTimeMillis();
+
+        CharSequence ago =
+                DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+
+        holder.publishedAt.setText(ago.toString());
+
     }
 
     @Override
