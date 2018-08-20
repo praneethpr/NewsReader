@@ -1,23 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:layout_margin="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Thumbnail Image -->
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop" />
 
-    <!-- Thumbnail Image -->
-    <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/thumbnail"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="8dp" />
+            <!-- News Title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/thumbnail"
+                android:padding="8dp"
+                android:textStyle="bold"
+                android:maxLines="3"/>
 
-    <!-- News Title -->
-    <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/thumbnail"
-            android:layout_toRightOf="@+id/thumbnail"
-            android:textStyle="bold" />
+            <!-- Logo Image -->
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/source_logo"
+                android:layout_width="23dp"
+                android:layout_height="31dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/title"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="-6dp" />
 
-</RelativeLayout>
+            <!-- Published Time -->
+            <TextView
+                android:id="@+id/published_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/source_logo"
+                android:layout_below="@+id/title"
+                android:layout_alignParentStart="true"
+                android:textStyle="normal" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
