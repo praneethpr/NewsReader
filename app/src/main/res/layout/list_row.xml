@@ -33,7 +33,7 @@
                 android:layout_below="@+id/thumbnail"
                 android:padding="8dp"
                 android:textStyle="bold"
-                android:maxLines="3"/>
+                android:maxLines="2"/>
 
             <!-- Logo Image -->
             <com.android.volley.toolbox.NetworkImageView
