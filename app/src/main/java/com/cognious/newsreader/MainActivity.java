@@ -7,17 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.cognious.newsreader.Adapter.CustomListAdapter;
 import com.cognious.newsreader.Model.News;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,8 +23,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
-
-    private RequestQueue reqQueue;
 
     List<News> newsList;
 
@@ -43,16 +38,16 @@ public class MainActivity extends AppCompatActivity {
         newsList = new ArrayList<>();
 
         mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemViewCacheSize(20);
-        mRecyclerView.setDrawingCacheEnabled(true);
-        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CustomListAdapter(newsList);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setDrawingCacheEnabled(true);
+        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        mRecyclerView.getRecycledViewPool().setMaxRecycledViews(0, 0);
 
-        reqQueue = Volley.newRequestQueue(this);
 
         Date date = new Date();
         String modifiedDate= new SimpleDateFormat("yyyyMMdd").format(date);

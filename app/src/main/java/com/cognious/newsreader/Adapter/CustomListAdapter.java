@@ -81,13 +81,8 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
         return this.newsList.size();
     }
 
-    public void addItem(News newsItem, int index) {
-        this.newsList.add(index, newsItem);
-        notifyItemInserted(index);
-    }
-
-    public void deleteItem(int index) {
-        this.newsList.remove(index);
-        notifyItemRemoved(index);
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }
