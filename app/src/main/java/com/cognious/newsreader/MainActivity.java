@@ -18,9 +18,10 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private List<String> formatStrings = Arrays.asList("yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +67,11 @@ public class MainActivity extends AppCompatActivity {
                         String thumbnailUrl = articleObj.getString("urlToImage");
                         String sourceLogoUrl = articleObj.getString("source_logo");
                         String publishedAt = articleObj.getString("publishedAt");
-
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                        format.setTimeZone(TimeZone.getTimeZone("UTC"));
-                        Date publishedDate = format.parse(publishedAt);
+                        Date publishedDate = tryParse(publishedAt);
 
                         newsList.add(new News(title, thumbnailUrl, sourceLogoUrl, publishedDate));
                     }
-                } catch (JSONException | ParseException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -86,5 +86,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private Date tryParse(String dateString)
+    {
+        for (String formatString : formatStrings)
+        {
+            try
+            {
+                return new SimpleDateFormat(formatString).parse(dateString);
+            }
+            catch (ParseException e) {}
+        }
+
+        return null;
     }
 }
