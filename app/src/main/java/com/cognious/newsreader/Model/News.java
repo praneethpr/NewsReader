@@ -4,15 +4,16 @@ import java.util.Date;
 
 public class News {
 
-    private String title, thumbnailUrl, sourceLogoUrl;
+    private String title, thumbnailUrl, sourceLogoUrl, sourceUrl;
 
     private Date publishedAt;
 
-    public News(String title, String thumbnailUrl, String sourceLogoUrl, Date publishedAt) {
+    public News(String title, String thumbnailUrl, String sourceLogoUrl, Date publishedAt, String sourceUrl) {
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;
         this.sourceLogoUrl = sourceLogoUrl;
         this.publishedAt = publishedAt;
+        this.sourceUrl = sourceUrl;
     }
 
     public String getTitle() {
@@ -45,5 +46,13 @@ public class News {
 
     public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 }
