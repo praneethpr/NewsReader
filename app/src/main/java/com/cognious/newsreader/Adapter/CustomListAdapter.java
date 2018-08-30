@@ -58,15 +58,16 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
 
     @Override
     public void onBindViewHolder(@NonNull NewsHolder holder, int position) {
-        holder.title.setText(this.newsList.get(position).getTitle());
+        final News currentItem = this.newsList.get(position);
+        holder.title.setText(currentItem.getTitle());
 
         ImageLoader imageLoaderThumb = VolleySingleton.getInstance(holder.thumbNail.getContext()).getImageLoader();
-        holder.thumbNail.setImageUrl(this.newsList.get(position).getThumbnailUrl(), imageLoaderThumb);
+        holder.thumbNail.setImageUrl(currentItem.getThumbnailUrl(), imageLoaderThumb);
 
         ImageLoader imageLoaderLogo = VolleySingleton.getInstance(holder.sourceLogoUrl.getContext()).getImageLoader();
-        holder.sourceLogoUrl.setImageUrl(this.newsList.get(position).getSourceLogoUrl(), imageLoaderLogo);
+        holder.sourceLogoUrl.setImageUrl(currentItem.getSourceLogoUrl(), imageLoaderLogo);
 
-        long time = this.newsList.get(position).getPublishedAt().getTime();
+        long time = currentItem.getPublishedAt().getTime();
         long now = System.currentTimeMillis();
 
         CharSequence ago =
