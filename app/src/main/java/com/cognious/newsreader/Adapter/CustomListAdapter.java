@@ -1,5 +1,8 @@
 package com.cognious.newsreader.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +26,8 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
 
     private List<News> newsList;
 
+    private Context mContext;
+
     public static class NewsHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView title;
@@ -41,8 +46,9 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
     }
 
     //constructor initializing the values
-    public CustomListAdapter(List<News> newsList) {
+    public CustomListAdapter(Context mContext, List<News> newsList) {
         this.newsList = newsList;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -74,6 +80,23 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
                 DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
 
         holder.publishedAt.setText(ago.toString());
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Parse string as url object
+                Uri webpage = Uri.parse(currentItem.getSourceUrl());
+
+                // Create web browser intent
+                Intent storyOnWebIntent = new Intent(Intent.ACTION_VIEW, webpage);
+
+                // Check web activity can be handled by the device and start activity
+                if (storyOnWebIntent.resolveActivity(mContext.getPackageManager()) != null) {
+                    mContext.startActivity(storyOnWebIntent);
+                }
+            }
+        });
+
 
     }
 

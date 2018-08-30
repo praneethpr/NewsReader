@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CustomListAdapter(newsList);
+        mAdapter = new CustomListAdapter(this, newsList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemViewCacheSize(20);
