@@ -2,7 +2,7 @@ package com.cognious.newsreader.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.cognious.newsreader.Model.News;
 import com.cognious.newsreader.R;
 import com.cognious.newsreader.VolleySingleton;
+import com.cognious.newsreader.WebViewActivity;
 
 import java.util.List;
 
@@ -53,17 +55,15 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
 
     @NonNull
     @Override
-    public NewsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-
+    public NewsHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, viewGroup, false);
-
         NewsHolder newsHolder = new NewsHolder(view);
 
         return newsHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final NewsHolder holder, int position) {
         final News currentItem = this.newsList.get(position);
         holder.title.setText(currentItem.getTitle());
 
@@ -84,16 +84,12 @@ public class CustomListAdapter extends RecyclerView.Adapter<CustomListAdapter.Ne
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Parse string as url object
-                Uri webpage = Uri.parse(currentItem.getSourceUrl());
 
-                // Create web browser intent
-                Intent storyOnWebIntent = new Intent(Intent.ACTION_VIEW, webpage);
-
-                // Check web activity can be handled by the device and start activity
-                if (storyOnWebIntent.resolveActivity(mContext.getPackageManager()) != null) {
-                    mContext.startActivity(storyOnWebIntent);
-                }
+                Intent webViewBrowser = new Intent(mContext, WebViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("url", currentItem.getSourceUrl());
+                webViewBrowser.putExtras(bundle);
+                mContext.startActivity(webViewBrowser);
             }
         });
 
