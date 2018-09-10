@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CustomListAdapter(newsList);
+        mAdapter = new CustomListAdapter(this, newsList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemViewCacheSize(20);
@@ -68,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
                         String sourceLogoUrl = articleObj.getString("source_logo");
                         String publishedAt = articleObj.getString("publishedAt");
                         Date publishedDate = tryParse(publishedAt);
+                        String sourceUrl = articleObj.getString("url");
 
-                        newsList.add(new News(title, thumbnailUrl, sourceLogoUrl, publishedDate));
+
+                        newsList.add(new News(title, thumbnailUrl, sourceLogoUrl, publishedDate, sourceUrl));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
