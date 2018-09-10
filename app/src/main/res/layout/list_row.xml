@@ -48,13 +48,14 @@
             <!-- Logo Image -->
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/source_logo"
-                android:layout_width="23dp"
-                android:layout_height="31dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/title"
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="12dp"
-                android:layout_marginTop="-6dp" />
+                android:layout_marginTop="-6dp"
+                android:background="#ffffff" />
 
             <!-- Published Time -->
             <TextView
